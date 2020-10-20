@@ -3,83 +3,80 @@ import './App.css';
 
 
 function App() {
-  const initialTodos = [
-    {
-      title: "Groceries",
-      description: "chips, eggs, bread, cucumbers",
-      dueDate: "2020/22/10",
-      priority: 3,
-      project: "Errands",
-      complete: false
-    },
-    {
-      title: "Carwash",
-      description: "get the damn car washed!",
-      dueDate: "2020/30/10",
-      priority: 1,
-      project: "Errands",
-      complete: false
-    },
-    {
-      title: "Take cats to the vet",
-      description: "make a vet appointment",
-      dueDate: "2020/30/12",
-      priority: 2,
-      project: "Errands",
-      complete: false
-    },
-    {
-      title: "Weather App",
-      description: "make a weather app for TOP",
-      dueDate: "2020/30/11",
-      priority: 1,
-      project: "Coding Projects",
-      complete: false
-    }
-  ]
+  const storedTodos = JSON.parse(localStorage.getItem('myTodosInLocalStorage') || '[]')
+  const storedProjects = JSON.parse(localStorage.getItem('myProjectsInLocalStorage') || '[]')
 
-  const initialProjects = [
-    { title: "Errands" },
-    { title: "Coding Projects" }
-  ]
+  const [myTodo, setMyTodo] = React.useState(storedTodos);
+  const [myProjects, setMyProjects] = React.useState(storedProjects)
 
-  const [myTodo, setMyTodo] = React.useState(initialTodos);
-  const [myProjects, setMyProjects] = React.useState(initialProjects)
+  React.useEffect(() => {
+    localStorage.setItem('myTodosInLocalStorage', JSON.stringify(myTodo));
+  }, [myTodo])
+
+  React.useEffect(() => {
+    localStorage.setItem('myProjectsInLocalStorage', JSON.stringify(myProjects));
+  }, [myProjects])
 
 
   function addTodo(newTodo) {
-    //console.log(newTodo)
     setMyTodo([newTodo, ...myTodo])
   }
 
-  function toggleTodoComplete(index, title) {
-    console.log(index, title)
+  function toggleTodoComplete(title) {
+    let spreadTodos = [...myTodo]
+    let currentTodo = {}
 
-    const currentTodo = myTodo[index];
+    for (let i = 0; i < spreadTodos.length; i++) {
+      if (spreadTodos[i].title === title) {
+        currentTodo = spreadTodos[i]
+        currentTodo.complete = !currentTodo.complete
+        spreadTodos[i] = currentTodo
+        setMyTodo(spreadTodos)
+      }
+    }
+  }
 
-    currentTodo.complete = !currentTodo.complete
-
-    const newTodo = [...myTodo]
-
-    newTodo[index] = currentTodo
-    setMyTodo(newTodo)
-
+  function addProject(newProject) {
+    console.log(newProject)
+    setMyProjects([newProject, ...myProjects])
   }
 
   return (
     <div className="App">
+      <AddProject onAddProject={addProject} />
       <AddTodoToList onAddTodo={addTodo} />
-      <DisplayProjects onProjects={myProjects} onClickProject={myTodo} onToggle={toggleTodoComplete}/>
+      <DisplayProjects onProjects={myProjects} onClickProject={myTodo} onToggle={toggleTodoComplete} />
     </div>
   );
 }
 
+const AddProject = (props) => {
+  const initialProjectState = { title: '' }
+
+  const [newProject, setNewProject] = React.useState(initialProjectState)
+
+  const handleSubmit = () => {
+    console.log(newProject)
+    props.onAddProject(newProject)
+    setNewProject(initialProjectState)
+  }
+
+  return (
+    <div>
+      <label>
+        <input type="text" placeholder="new project name" value={newProject.project} onChange={(event) => setNewProject({ ...newProject, title: event.target.value })} />
+        <input type="submit" onClick={() => handleSubmit()} />
+      </label>
+    </div>
+  )
+}
+
 
 const AddTodoToList = (props) => {
-  const initialTodoState = {title: '', description: '', dueDate: '', priority: '', project: '', complete: false}
+  const initialTodoState = { title: '', description: '', dueDate: '', priority: '', project: '', complete: false }
 
   const [newTodo, setNewTodo] = React.useState(initialTodoState)
-  
+
   const handleSubmit = () => {
     console.table(newTodo)
     props.onAddTodo(newTodo)
@@ -90,20 +87,20 @@ const AddTodoToList = (props) => {
     <div className="newTodo">
       <label>
         New Todo <br></br>
-          <input type="text" placeholder="title" value={newTodo.title} onChange={(event) => setNewTodo({...newTodo, title: event.target.value})} />
-          <br></br>
-          <input type="text" placeholder="description" value={newTodo.description} onChange={(event) => setNewTodo({...newTodo, description: event.target.value})} />
-          <br></br>
-          <input type="text" placeholder="dueDate"  value={newTodo.dueDate} onChange={(event) => setNewTodo({...newTodo, dueDate: event.target.value})} />
-          <br></br>
-          <input type="text" placeholder="project"  value={newTodo.project} onChange={(event) => setNewTodo({...newTodo, project: event.target.value})} />
-          <br></br>
-          <select placeholder="priority"  value={newTodo.priority} onChange={(event) => setNewTodo({...newTodo, priority: event.target.value})} >
-            <option value="1">1</option>
-            <option value="2">2</option>
-            <option value="3">3</option>
-          </select> &nbsp;
-          <input type="submit" onClick={() => handleSubmit()}/>
+        <input type="text" placeholder="title" value={newTodo.title} onChange={(event) => setNewTodo({ ...newTodo, title: event.target.value })} />
+        <br></br>
+        <input type="text" placeholder="description" value={newTodo.description} onChange={(event) => setNewTodo({ ...newTodo, description: event.target.value })} />
+        <br></br>
+        <input type="text" placeholder="dueDate" value={newTodo.dueDate} onChange={(event) => setNewTodo({ ...newTodo, dueDate: event.target.value })} />
+        <br></br>
+        <input type="text" placeholder="project" value={newTodo.project} onChange={(event) => setNewTodo({ ...newTodo, project: event.target.value })} />
+        <br></br>
+        <select placeholder="priority" value={newTodo.priority} onChange={(event) => setNewTodo({ ...newTodo, priority: event.target.value })} >
+          <option value="1">1</option>
+          <option value="2">2</option>
+          <option value="3">3</option>
+        </select> &nbsp;
+          <input type="submit" onClick={() => handleSubmit()} />
       </label>
     </div>
   )
@@ -143,7 +140,7 @@ const DisplayProjects = (props) => {
         </div>
       ))}
       {/* gives the values in projectTodos (those selected from the for loop above) to the DisplayTodos function */}
-      <DisplayTodos onDisplay={projectTodos} onToggle={props.onToggle}/>
+      <DisplayTodos onDisplay={projectTodos} onToggle={props.onToggle} />
     </div>
   )
 }
@@ -152,17 +149,22 @@ const DisplayProjects = (props) => {
 const DisplayTodos = (props) => {
   //console.log(props)
 
-  const handleToggle = (index, title) => {
-    props.onToggle(index, title)
+  const handleToggle = (title) => {
+    props.onToggle(title)
   }
-  
+
+  const deleteTodo = (title) => {
+    console.log(title)
+  }
+
   return (
     <div>
       {props.onDisplay.map(({ title, description, dueDate, priority, project, complete }, index) => (
         <div key={title}>
           <h3>{title}</h3>
-          <p>{description} {dueDate} {priority} {project}</p>
-          <input type='checkbox' checked={complete} onChange={() => handleToggle(index, title)}/>
+          <p>{description} {dueDate}</p>
+          <input type='checkbox' checked={complete} onChange={() => handleToggle(title)} />
+          <button className="delete" onClick={() => deleteTodo(title)}>X</button>
         </div>
       ))}
     </div>
