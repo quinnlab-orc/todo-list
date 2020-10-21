@@ -36,6 +36,25 @@ function App() {
     }
   }
 
+  function deleteTodo(title, project) {
+    let spreadTodos = [...myTodo]
+    console.log(title, project)
+    const filteredArray = spreadTodos.filter(item => item.title !== title);
+    setMyTodo(filteredArray)
+  }
+
+  function deleteProject(title) {
+    let spreadProjects = [...myProjects]
+    let spreadTodos = [...myTodo]
+
+    const filteredArray = spreadProjects.filter(item => item.title !== title);
+    setMyProjects(filteredArray)
+
+    const filteredTodos = spreadTodos.filter(killTodo => killTodo.project !== title);
+    console.log(filteredTodos)
+    setMyTodo(filteredTodos)
+  }
+
   function addProject(newProject) {
     console.log(newProject)
     setMyProjects([newProject, ...myProjects])
@@ -45,7 +64,7 @@ function App() {
     <div className="App">
       <AddProject onAddProject={addProject} />
       <AddTodoToList onAddTodo={addTodo} />
-      <DisplayProjects onProjects={myProjects} onClickProject={myTodo} onToggle={toggleTodoComplete} />
+      <DisplayProjects onProjects={myProjects} onClickProject={myTodo} onToggle={toggleTodoComplete} onDelete={deleteTodo} onProjectDelete={deleteProject}/>
     </div>
   );
 }
@@ -78,10 +97,10 @@ const AddTodoToList = (props) => {
   const [newTodo, setNewTodo] = React.useState(initialTodoState)
 
   const handleSubmit = () => {
-    console.table(newTodo)
     props.onAddTodo(newTodo)
     setNewTodo(initialTodoState)
   }
+
 
   return (
     <div className="newTodo">
@@ -91,7 +110,7 @@ const AddTodoToList = (props) => {
         <br></br>
         <input type="text" placeholder="description" value={newTodo.description} onChange={(event) => setNewTodo({ ...newTodo, description: event.target.value })} />
         <br></br>
-        <input type="text" placeholder="dueDate" value={newTodo.dueDate} onChange={(event) => setNewTodo({ ...newTodo, dueDate: event.target.value })} />
+        <input type="date" placeholder="dueDate" value={newTodo.dueDate} onChange={(event) => setNewTodo({ ...newTodo, dueDate: event.target.value })} />
         <br></br>
         <input type="text" placeholder="project" value={newTodo.project} onChange={(event) => setNewTodo({ ...newTodo, project: event.target.value })} />
         <br></br>
@@ -109,8 +128,10 @@ const AddTodoToList = (props) => {
 
 //line 51 passes [myProjects] and [myTodo] as props to the DisplayProjects component
 const DisplayProjects = (props) => {
+  
   const [projectTodos, setProjectTodos] = React.useState([]);
 
+  
 
   const handleProjects = (title) => {
     setProjectTodos([]);
@@ -130,6 +151,10 @@ const DisplayProjects = (props) => {
     setProjectTodos(todoHolder)
   }
 
+  const handleDelete = (title) => {
+    props.onProjectDelete(title)
+  }
+
   //maps the values in myProjects (as props.onProjects) to be displayed
   //if a project name is clicked, activates the handleProjects function passing the project title (as title)
   return (
@@ -137,10 +162,11 @@ const DisplayProjects = (props) => {
       {props.onProjects.map(({ title }, index) => (
         <div key={title} onClick={() => handleProjects(title)}>
           <h2>{title}</h2>
+          <button onClick={() => handleDelete(title)}>X</button>
         </div>
       ))}
       {/* gives the values in projectTodos (those selected from the for loop above) to the DisplayTodos function */}
-      <DisplayTodos onDisplay={projectTodos} onToggle={props.onToggle} />
+      <DisplayTodos onDisplay={projectTodos} onToggle={props.onToggle} onDelete={props.onDelete} />
     </div>
   )
 }
@@ -153,8 +179,8 @@ const DisplayTodos = (props) => {
     props.onToggle(title)
   }
 
-  const deleteTodo = (title) => {
-    console.log(title)
+  const deleteTodo = (title, project) => {
+    props.onDelete(title, project)
   }
 
   return (
@@ -164,7 +190,7 @@ const DisplayTodos = (props) => {
           <h3>{title}</h3>
           <p>{description} {dueDate}</p>
           <input type='checkbox' checked={complete} onChange={() => handleToggle(title)} />
-          <button className="delete" onClick={() => deleteTodo(title)}>X</button>
+          <button className="delete" onClick={() => deleteTodo(title, project)}>X</button>
         </div>
       ))}
     </div>
