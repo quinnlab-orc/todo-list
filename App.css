@@ -2,54 +2,58 @@
   text-align: center;
 }
 
-.titleText {
-  background-color: #5e94ff;
-  width: 180px;
-  margin: auto;
-  border-radius: 10px;
-  margin-top: 15px;
-  margin-bottom: 20px;
-  border: 2px solid;
-}
 
-.book {
-  margin: auto;
-  width: 30%;
-  text-align: justify;
-  padding-left: 10px;
-  padding-bottom: 10px;
-  padding-top: 5px;
-  background-color: #5e94ff;
-  border-radius: 10px;
-  border: 2px solid;
-}
-
-.myBook {
-  margin: auto;
-  text-align: center;
-  width: 15%;
-  padding-left: 10px;
-  padding-bottom: 10px;
-  padding-top: 5px;
-  background-color: #5e94ff;
-  border-radius: 10px;
-  margin-bottom: 10px;
-  border: 2px solid;
-}
-
-.bookForm {
-  background-color: #5e94ff;
-  border-radius: 10px;
-  padding-bottom: 10px;
-  margin: auto;
-  margin-bottom: 20px;
+.newTodo {
+  display: flex;
+  justify-content: center;
   width: 20%;
-  border: 2px solid;
+  margin: auto;
+  margin-top: 10px;
+  padding: 10px 0px 10px 0px;
+  background-color: khaki;
+  border-radius: 10px;
+  font-size: small;
+  font-weight: bold;
+}
+
+.inputTodo {
+  width: 75%;
+}
+
+.todos {
+  width: 30%;
+  margin: auto;
+  margin-top: 10px;
+  background-color: khaki;
+  border-radius: 15px;
+  padding-bottom: 5px;
+}
+
+.newProject {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  width: 20%;
+}
+
+.displayProjects {
+  display: flex;
+  justify-content: center;
+  background-color: khaki;
+  width: 30%;
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.newProject {
+  display: flex;
+  background-color: khaki;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
 }
 
 .delete {
-  font-weight: bold;
-  background-color: coral;
   border-radius: 50%;
-  border: 1px solid;
+  background-color: coral;
 }
