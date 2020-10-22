@@ -1,0 +1,25 @@
+.App {
+  text-align: center;
+}
+
+
+.newTodo {
+  width: 25%;
+  margin: auto;
+  padding-top: 10px;
+  padding-bottom: 10px;
+  background-color: lightcoral;
+  border-radius: 10px;
+}
+
+.inputTodo {
+  width: 75%;
+}
+
+.todos {
+  width: 40%;
+  margin: auto;
+  border-radius: 15px;
+  padding-bottom: 10px;
+}
+
