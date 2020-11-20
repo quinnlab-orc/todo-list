@@ -1,0 +1,59 @@
+.App {
+  text-align: center;
+}
+
+
+.newTodo {
+  display: flex;
+  justify-content: center;
+  width: 20%;
+  margin: auto;
+  margin-top: 10px;
+  padding: 10px 0px 10px 0px;
+  background-color: khaki;
+  border-radius: 10px;
+  font-size: small;
+  font-weight: bold;
+}
+
+.inputTodo {
+  width: 75%;
+}
+
+.todos {
+  width: 30%;
+  margin: auto;
+  margin-top: 10px;
+  background-color: khaki;
+  border-radius: 15px;
+  padding-bottom: 5px;
+}
+
+.newProject {
+  display: flex;
+  justify-content: center;
+  margin: auto;
+  width: 20%;
+}
+
+.displayProjects {
+  display: flex;
+  justify-content: center;
+  background-color: khaki;
+  width: 30%;
+  border-radius: 15px;
+  margin: auto;
+  margin-top: 10px;
+}
+
+.newProject {
+  display: flex;
+  background-color: khaki;
+  padding: 10px 10px 10px 10px;
+  border-radius: 10px;
+}
+
+.delete {
+  border-radius: 50%;
+  background-color: coral;
+}
