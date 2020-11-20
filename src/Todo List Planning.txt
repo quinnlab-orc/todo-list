@@ -1,0 +1,45 @@
+Todo List Planning
+
+
+                    What it needs
+
+Todos - title, description, dueDate, priority, completed(y/n)
+
+Projects - can store multiple todos if needed
+    - todos outside of projects get stored in a 'default' project
+    - should be able to create new projects and add todos to existing projects
+
+
+Way to view all projects
+View all todos in each project (probably just title and duedate, changing color for different properties?)
+expand a single todo to see/edit details
+delete a todo/project
+
+use localStorage
+
+
+
+
+
+function App (
+
+    return (
+        <div>
+
+
+        </div>
+    )
+)
+
+const DisplayProjects = () => {
+    maps and displays the Projects
+    if a project is clicked, pass the project name to <DisplayTodos />
+    if a project is deleted, pass that down to <DisplayTodos /> so that the relevant Todos can also be removed
+}
+
+const DisplayTodos = (props) => {
+    holds the Todos, maps, and displays the correct ones based off of the project clicked in <DisplayProjects />
+    handles the toggling of Todo completion 
+    manages the deletion of Todos
+    deletes the relevant todos if a project they are assigned to is deleted
+}
